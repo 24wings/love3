@@ -1,0 +1,27 @@
+extends layouts/base-layout
+block append style
+  style.
+    .ui.medium.image{
+      width:100%;
+    }
+block append content
+
+    .ui.shape.auto
+      .sides
+        .side
+            img(src='http://teach.wanviv.com:8888/images/3.jpg').ui.medium.image
+        .side.active
+            img(src='http://teach.wanviv.com:8888/images/3.jpg').ui.medium.image
+        .side
+            img(src='http://teach.wanviv.com:8888/images/3.jpg').ui.medium.image
+
+                                         
+                
+block append script
+  script(src='/scripts/index.js')
+  script.
+    $('.shape').shape();
+    setInterval(function(){
+      $('.shape').shape('flip right');
+    },3000)
+    

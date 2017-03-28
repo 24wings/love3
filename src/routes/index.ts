@@ -7,19 +7,19 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
-  /*
+
   if (res.locals.user) {
     var user = await userModel.findById(res.locals.user._id).exec();
     var record = await recordModel.findOne({ user: user._id }).exec();
     console.log(user, record);
     res.render('index', {
-    user
+      user,
+      record
     });
   } else {
     res.redirect('/signup');
   }
- */
-  res.render('index');
+
 
 
 });

@@ -81,7 +81,6 @@ router.route('/')
             loveSong, god, book, ta, words, reason, filterAge, filterCity
         }).save();
         var record = await new recordModel({ state: 0, user: user._id }).save();
-
         // 创建一条纪录
         req.session.user = user;
         res.redirect('/');

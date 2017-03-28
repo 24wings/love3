@@ -11,12 +11,10 @@ moment.locale('zh-cn');
 
 import {
   indexRouter,
-  signinRouter,
   signupRouter,
-  studentIndexRouter,
-  signoutRouter,
-  createRouter,
-  topicRouter
+  adminRouter,
+  userRouter,
+  signinRouter
 } from './routes/index';
 
 
@@ -41,7 +39,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, '../public')));
-app.use('/node_modules', express.static(path.resolve(__dirname, '../node_modules'));
+app.use('/node_modules', express.static(path.resolve(__dirname, '../node_modules')));
 /**
  * 没有缓存
  */
@@ -65,12 +63,13 @@ app.use(function (req, res, next) {
 
 
 app.use('/', indexRouter);
-app.use('/signin', signinRouter);
+
 app.use('/signup', signupRouter);
-app.use('/student/', studentIndexRouter);
-app.use('/signout', signoutRouter);
-app.use('/create', createRouter);
-app.use('/topic', topicRouter);
+
+app.use('/admin', adminRouter);
+app.use('/user', userRouter);
+app.use('/signin', signinRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

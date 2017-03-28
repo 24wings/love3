@@ -1,125 +1,50 @@
 extends layouts/base-layout
+include mixins/joining
+include mixins/loose
+include mixins/success
+include mixins/unjoin
 block append style
   style.
-    .ui.medium.image{
-      width:100%;
-    }
-    .divider-sm{
-      height: 20px !important;
-      background: rgba(22,22,66,.1);
-    }
-        .divider-middle{
-          height: 40px !important;
-          background: rgba(22,22,66,.1);
+        .ui.medium.image {
+            width: 100%;
         }
-        .divider-lg{
-          height: 80px !important;
-          background: rgba(22,22,66,.1);
-      }
-      .menu{
-        background: rgba(255,255,255,0.4) !important;
-        position:fixed;
-        bottom:0;
-      }
-    
-    
+        .divider-sm {
+            height: 20px !important;
+            background: rgba(22, 22, 66, .1);
+        }
+        .divider-middle {
+            height: 40px !important;
+            background: rgba(22, 22, 66, .1);
+        }
+
+        .divider-lg {
+            height: 80px !important;
+            background: rgba(22, 22, 66, .1);
+        }
+        .menu {
+            background: rgba(255, 255, 255, 0.4) !important;
+            position: fixed;
+            bottom: 0;
+        }
 block append content
-  .container
-    case record.state
-      when 0
-        .ui.shape.auto
-          .sides
-            .side
-                img(src='http://teach.wanviv.com:8888/images/1.jpg').ui.medium.image
-            .side.active
-                img(src='http://teach.wanviv.com:8888/images/2.jpg').ui.medium.image
-            .side
-                img(src='http://teach.wanviv.com:8888/images/3.jpg').ui.medium.image
-        h3.ui.header.text-center Hi
-        h4.ui.header.text-center 世界那么大,我想遇见你
-        h3.ui.header.text-center: button.ui.pink.button(style="border-radius:50px;") 寻找我的恋人
-        .ui.divider-sm
-        h4.ui.header.text-center 目前你已经几百全国
-        h4.ui.header.text-center 30%的情敌
-        h4.ui.header.text-center 入选率偏低
-        h4.ui.header.text-center  建议提高入选率
-        .ui.divider-lg
-      when 1
-        .ui.shape.auto
-          .sides
-            .side
-                img(src='http://teach.wanviv.com:8888/images/1.jpg').ui.medium.image
-            .side.active
-                img(src='http://teach.wanviv.com:8888/images/2.jpg').ui.medium.image
-            .side
-                img(src='http://teach.wanviv.com:8888/images/3.jpg').ui.medium.image
-        h3.ui.header  小恋正在努力为你匹配中
-        .ui.divider-lg
-      when 2
-        .ui.shape.auto
-            .sides
-              .side
-                  img(src='http://teach.wanviv.com:8888/images/33.jpg').ui.medium.image
-              .side.active
-                  img(src='http://teach.wanviv.com:8888/images/22.jpg').ui.medium.image
-              .side
-                  img(src='http://teach.wanviv.com:8888/images/11.jpg').ui.medium.image
-          h4.ui.header.text-center 恭喜你,与xxx匹配成为情侣
-          h3.ui.header.text-center
-            .ui.labeled.button
-              .ui.red.button
-                i.heart.icon
-                |恋人
-              a.ui.basic.red.left.pointing.label  90分
-      when 3
-        h4.ui.header.text-center: img.ui.medium.circular.image(src="https://semantic-ui.com/images/wireframe/square-image.png")
-        h4.ui.header 七天恋爱第一天
-        h4.ui.header.text-center 任务1:
-        h5.ui.header.text-center 对方发一段走心的自我介绍,包括最近正在忙的一件事情
-        h4.ui.header.text-center 任务2:
-        h5.ui.header.text-center 对方发一段走心的自我介绍,包括最近正在忙的一件事情
-        h4.ui.header.text-center 任务3:
-        h5.ui.header.text-center 对方发一段走心的自我介绍,包括最近正在忙的一件事情
-        h3.ui.header 任务打卡
-        h4.ui.header 每天的任务早上8点发放。请在次日早上八点之前完成任务。
-        h5.ui.header 完成任务后记得打卡，并将聊天记录截屏上传完成打卡！
-        h3.ui.header.text-center: button.ui.pink.button(style="border-radius:50px;") 点击上传任务
-    .ui.divider-lg
-    .ui.shape.auto
-      .sides
-        .side
-            img(src='http://teach.wanviv.com:8888/images/33.jpg').ui.medium.image
-        .side.active
-            img(src='http://teach.wanviv.com:8888/images/22.jpg').ui.medium.image
-        .side
-            img(src='http://teach.wanviv.com:8888/images/11.jpg').ui.medium.image
-    .ui.inline.cookie.nag
-      span.title  很抱歉,本次匹配失败,小恋已经尽力了~呜呜~
-      i.close.icon
-    h4.ui.header  由于本期后多人数超过预期,导致匹配失败,我们会在下一期继续为你匹配！
-    h4.ui.header.text-center   
-      button.ui.loading.pink.button(style='border-radius:50px')  匹配中
-    .ui.divider-lg
-    .ui.divider-lg
-    .ui.divider-lg
-    .ui.two.item.menu
-      a.item 主页
-      a.item  我的
-    .ui.divider-lg
-    
-
-    
-    
-    
-    
-
-                                         
-                
+  case record.state
+    when 0
+      +unjoin()
+    when 1
+      +joining()
+    when 2
+      +success(user,record.toUser,record)
+    when 3
+      +loose()
+  .ui.two.item.menu
+    a.item 主页
+    a.item  我的
+  .ui.divider-lg
 block append script
   script(src='/scripts/index.js')
   script.
     $('.shape').shape();
     setInterval(function(){
       $('.shape').shape('flip right');
-    },3000)
+    },3000);
     $('.cookie.nag').nag('show')

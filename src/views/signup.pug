@@ -72,27 +72,11 @@ block append content
                 .ui.button.red.fluid
                     i.heart.icon
                     | 开启恋爱之旅
-
-                            
-
 block append script 
     script.
         $('.ui.dropdown').dropdown({
                maxSelections: 3
         });
-        function submit (){
-            var phone =$('#phone').val();
-            var name =$('#name').val();
-            var gender =$('#gender').val();
-            var age = $('#age').val();
-            var tags=$('.tag').map(tag=>{
-                return {
-                    title:tag.find('.label').text(),
-                    value:tag.value()
-                }
-            })
-            console.log(phone,name,gender,age,tags);
-        }
 
 
                             

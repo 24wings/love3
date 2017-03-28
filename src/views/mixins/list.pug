@@ -1,16 +1,16 @@
-mixin  list(topics)
-    .ui.bottom.attached.active.tab.segment
-        .ui.list
-            each topic in topics
-                .item
-                    a.ui.avatar.image(href='/user/'+topic.student.name): img(src=topic.student.avatar)
-                    .content
-                        a.header(href='/topic/'+topic._id)  #{topic.title}
-                        p.topic.description
-                            a(href='/user/'+topic.student.name) #{topic.student.name} 
-                                .ui.buttons
-                                    .ui.button   #{topic.student.name} 发起了话题 
-                                    .ui.button #{topic.pv} 次浏览
-                                    .ui.button  #{topic.comment} 个回复
-                                    .ui.button #{moment(topic.updateDt).fromNow()} 
-                .ui.divider
+mixin list(users)
+    if users
+        table.ui.celled.table
+            thead
+                tr
+                    th 名字
+                    th 性别
+                    th.age 年龄
+                    th 操作
+            tbody
+                each user  in users
+                    tr
+                        td.no-sort #{user.name}
+                        td.no-sort #{user.gender}
+                        td(data-sort-value=user.age) #{user.age}
+                        td.no-sort: button.negative.ui.button(onclick="deleteUser('"+user._id+"')") 删除

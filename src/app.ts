@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, '../public')));
 app.use('/node_modules', express.static(path.resolve(__dirname, '../node_modules')));
-/**
+/** 
  * 没有缓存
  */
 

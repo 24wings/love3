@@ -1,8 +1,26 @@
 
 import express = require('express');
+import path = require('path');
 import { checkParamsFromBody } from '../middlewares/index';
+import fs = require('fs');
 import { userModel, IUser, recordModel, IRecord } from '../models';
 import gravatar = require('gravatar');
+import multer = require('multer');
+
+var upload = multer({
+    storage: multer.diskStorage({
+        destination: function (req, file, cb) {
+            var randomNum = req.session['randomNum'];
+            var newDir = path.join(__dirname, '../../public/uploads/' + randomNum);
+            fs.existsSync(newDir) ? '' : fs.mkdirSync(newDir);
+            cb(null, `public/uploads/${randomNum}/`)
+        },
+        filename: function (req, file, cb) {
+            console.log(file);
+            cb(null, file.originalname);
+        }
+    })
+});
 
 var router = express.Router();
 
@@ -69,17 +87,31 @@ router.route('/')
             }]
         });
     })
-    .post(checkParamsFromBody('name', 'phone', 'gender', 'age',
-        'signature', 'intersting', 'like', 'movie', 'loveSong', 'god',
-        'book', 'ta', 'words', 'reason',
-        'filterAge', 'filterCity'
-    ),
+    .post(checkParamsFromBody(
+        // 'name', 'phone', 'gender', 'age',
+        // 'signature', 'intersting', 'like', 'movie', 'loveSong', 'god',
+        // 'book', 'ta', 'words', 'reason',
+        // 'filterAge', 'filterCity'
+    ), (req, res, next) => {
+        req.session.randomNum = Math.random();
+        next();
+    }, upload.any(),
     async (req, res, next) => {
+        console.log(req.files);
+        console.log(req.body);
+        // var avatar = req.files.find
+        var files: Express.Multer.File[] = <any>req.files;
+        var qrcodeFile = files.find(file => file.fieldname === 'qrcode');
+        var qrcode = qrcodeFile.destination.substring(6) + qrcodeFile.filename;
+
+
         var { name, phone, gender, age, signature, intersting, like, movie, loveSong, god, book, ta, words, reason, filterAge, filterCity } = req.body;
         var user = await new userModel({
             name, phone, gender, age, signature, intersting, like, movie,
-            loveSong, god, book, ta, words, reason, filterAge, filterCity
+            loveSong, god, book, ta, words, reason, filterAge, filterCity,
+            qrcode
         }).save();
+        console.log(user);
         var record = await new recordModel({ state: 0, user: user._id }).save();
         // 创建一条纪录
         req.session.user = user;

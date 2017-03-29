@@ -8,7 +8,6 @@ var router = express.Router();
 /* GET home page. */
 router.route('/')
   .get(async (req, res, next) => {
-
     if (res.locals.user) {
       var user = await userModel.findById(res.locals.user._id).exec();
       var record = await recordModel.findOne({ user: user._id }).populate('toUser').exec();
